@@ -3,15 +3,16 @@ module "ec2_cluster" {
   source = "terraform-aws-modules/ec2-instance/aws"
 
   name           = "tf-client"
-  instance_count = 2
+  instance_count = 3
 
   ami                    = "ami-4bf3d731"
   instance_type          = "t2.micro"
   key_name               = "${var.key}"
   monitoring             = true
   vpc_security_group_ids = ["${var.sg}"]
+
   #vpc_security_group_ids = ["sg-25a7136d"]
-  subnet_id              = "subnet-fd5fd3a6"
+  subnet_id = "subnet-fd5fd3a6"
 
   tags = {
     Terraform   = "true"
@@ -26,10 +27,9 @@ module "security_group" {
 
   name        = "example"
   description = "Security group for example usage with EC2 instance"
-  vpc_id      = "${data.aws_vpc.default.id}"
 
+  vpc_id      = "vpc-c269a2a4"
   ingress_cidr_blocks = ["0.0.0.0/0"]
   ingress_rules       = ["http-80-tcp", "all-icmp"]
   egress_rules        = ["all-all"]
 }
-
